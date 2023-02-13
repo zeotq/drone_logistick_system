@@ -12,18 +12,19 @@ def data_base(user_command) -> str:
                 dron_data = cursor.fetchall()
                 for i in dron_data:
                     return_string += "id - {}, dron_type - {}, dron_position - {}, dron_status - {}\n".format(i[0],i[1],i[2],i[3])
-                return return_string
+                stat =  return_string
             except:
-                return "Error_0: can't read DB"
+                stat = "Error_0: can't read DB"
         elif user_command == 2:
             try:
                 sql_update_query = """Update drons_in_flight set dron_status = 'Available' where dron_status != 'Available'"""
                 cursor.execute(sql_update_query)
-                return 'Done'
+                stat = 'Done'
             except:
-                return "Error_1: can't reset DB"
+                stat = "Error_1: can't reset DB"
         else:
-            return 'Error_2: command_id not found'
+            stat = 'Error_2: command_id not found'
 
         connection.commit()
         connection.close()
+        return stat
